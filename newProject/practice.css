@@ -1,0 +1,17 @@
+p{
+    color:blue;
+
+}
+button{ 
+    background-color: green;
+    height: 30px;
+    width: 50px;
+}
+div{
+    color:red; 
+    font-size: 24px;
+}
+input{
+    width: 150px;
+    height: 30px;
+}
