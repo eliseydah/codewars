@@ -1,17 +1,23 @@
-function expandedForm(num) {
-  let newString = "";
+function toWeirdCase(string) {
+  let newArray = string.split(" ");
   let finalArray = [];
-  let newArray = num.toString().split("");
   for (let i = 0; i < newArray.length; i++) {
-    let a = newArray.length - i - 1;
-    if (newArray[i] !== "0") {
-      finalArray.push(newArray[i] * Math.pow(10, a));
+    finalArray.push(foo(newArray[i]));
+  }
+  return finalArray.join(" ");
+}
+function foo(item) {
+  let localArray = item.split("");
+  let changedArray = [];
+  for (let i = 0; i < localArray.length; i++) {
+    if (i % 2 || i === 1) {
+      changedArray.push(localArray[i].toLowerCase());
+    } else {
+      changedArray.push(localArray[i].toUpperCase());
     }
   }
-
-  return finalArray.join(" + ");
+  return changedArray.join("");
 }
-console.log(expandedForm(12)); // "10+2"
-console.log(expandedForm(42)); // "40+2"
-console.log(expandedForm(70304)); // "70000 + 300 + 4"
-console.log(expandedForm(12));
+console.log(toWeirdCase("This is a test")); //'ThIs Is A TeSt'
+console.log(toWeirdCase("UPPER CASE")); //'UpPeR CaSe'
+console.log(toWeirdCase("lower case")); //  'LoWeR CaSe'
