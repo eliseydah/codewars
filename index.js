@@ -1,44 +1,20 @@
-const eyes = [";", ":"];
-const noses = ["-", "~"];
-const smiles = [")", "D"];
-
-function foundSmile(item) {
-  // for (let i = 0; i < item.length; i++)
-  if (item.length < 2 || item.length > 3) {
-    return false;
-  }
-  if (item.length === 3) {
-    if (!eyes.includes(item[0])) {
-      return false;
-    }
-    if (!noses.includes(item[1])) {
-      return false;
-    }
-    if (!smiles.includes(item[2])) {
-      return false;
+function deleteNth(arr, n) {
+  let uniqueArray = [];
+  let newObj = {};
+  for (let i = 0; i < arr.length; i++) {
+    if (newObj[arr[i]]) {
+      newObj[arr[i]] += 1;
+      if (newObj[arr[i]] <= n) {
+        uniqueArray.push(arr[i]);
+      }
+    } else {
+      newObj[arr[i]] = 1;
+      uniqueArray.push(arr[i]);
     }
   }
-  if (item.length === 2) {
-    if (!eyes.includes(item[0])) {
-      return false;
-    }
-    if (!smiles.includes(item[1])) {
-      return false;
-    }
-  }
-  return true;
+  return uniqueArray;
 }
 
-function countSmileys(arr) {
-  if (arr.length === 0) {
-    return 0;
-  }
-  let smileArray = arr.filter(foundSmile);
-  return smileArray.length;
-}
-
-console.log(countSmileys([":D", ":~)", ";~D", ":)"])); //4
-console.log(countSmileys([":)", ":(", ":D", ":O", ":;"])); //2
-console.log(countSmileys([";]", ":[", ";*", ":$", ";-D"])); //1
-// console.log(countSmileys([]));
-//valid :) :D ;-D :~)
+// console.log(deleteNth([20, 37, 20, 21], 1)); //20 37 21
+console.log(deleteNth([1, 1, 3, 3, 7, 2, 2, 2, 2], 3)); //[1, 1, 3, 3, 7, 2, 2, 2]
+// console.log(deleteNth([12, 39, 19, 39, 39, 19, 12], 1)); // [12,39,19], 1
