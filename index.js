@@ -1,23 +1,20 @@
-function parse(data) {
-  let originalArray = data.split("");
-  let newArray = [];
-  let initialValue = 0;
-  for (let i = 0; i < originalArray.length; i++) {
-    if (originalArray[i] === "i") {
-      initialValue += 1;
-    }
-    if (originalArray[i] === "d") {
-      initialValue -= 1;
-    }
-    if (originalArray[i] === "s") {
-      initialValue = initialValue * initialValue;
-    }
-    if (originalArray[i] === "o") {
-      newArray.push(initialValue);
-    }
+function partsSums(ls) {
+  if (ls.length === 0) {
+    return [0];
   }
-  return newArray;
-}
+  let sumArray = [];
+  let sumValue = ls;
+  sumValue = ls.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  );
+  sumArray.push(sumValue);
+  for (let i = 0; i < ls.length; i++) {
+    sumValue = sumValue - ls[i];
+    sumArray.push(sumValue);
+  }
 
-console.log(parse("iiisdoso")); // [8,64]
-console.log(parse("iiisdosodddddiso")); // [8, 64, 3600]
+  return sumArray;
+}
+console.log(partsSums([0, 1, 3, 6, 10])); //  [20, 20, 19, 16, 10, 0]
+console.log(partsSums([1, 2, 3, 4, 5, 6])); //[21, 20, 18, 15, 11, 6, 0]
