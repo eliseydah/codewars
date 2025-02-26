@@ -1,20 +1,28 @@
-function partsSums(ls) {
-  if (ls.length === 0) {
-    return [0];
+function towerBuilder(nFloors) {
+  let asterisk = "*";
+  let index = 1;
+  let newArray = [];
+  let finalArray = [];
+  for (let i = 1; i <= nFloors; i++) {
+    newArray.push(asterisk.repeat(index));
+    index += 2;
   }
-  let sumArray = [];
-  let sumValue = ls;
-  sumValue = ls.reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0
-  );
-  sumArray.push(sumValue);
-  for (let i = 0; i < ls.length; i++) {
-    sumValue = sumValue - ls[i];
-    sumArray.push(sumValue);
-  }
+  // console.log(newArray[newArray.length - 1].length);
+  // return newArray;
+  for (let i = 0; i < newArray.length; i++) {
+    let gap = " ";
+    let indexGap = 0;
 
-  return sumArray;
+    indexGap = (newArray[newArray.length - 1].length - newArray[i].length) / 2;
+    console.log(indexGap);
+    finalArray.push(
+      `${gap.repeat(indexGap)}${newArray[i]}${gap.repeat(indexGap)}`
+    );
+  }
+  return finalArray;
+  // build here
 }
-console.log(partsSums([0, 1, 3, 6, 10])); //  [20, 20, 19, 16, 10, 0]
-console.log(partsSums([1, 2, 3, 4, 5, 6])); //[21, 20, 18, 15, 11, 6, 0]
+console.log(towerBuilder(1)); // ["*"]);
+console.log(towerBuilder(2)); //[" * ","***"]);
+console.log(towerBuilder(3)); // ["  *  "," *** ","*****"])
+console.log(towerBuilder(4));
