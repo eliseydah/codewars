@@ -1,12 +1,20 @@
-var maxSequence = function (arr) {
-  let currentSum = 0;
-  let maxSum = 0;
-  for (let i = 0; i < arr.length; i++) {
-    currentSum = Math.max(currentSum + arr[i], arr[i]);
-    maxSum = Math.max(maxSum, currentSum);
+function validPhoneNumber(phoneNumber) {
+  let arr = phoneNumber.replace("-", ",").replace(" ", ",").split(",");
+  console.log(arr[0].length);
+  if (
+    arr.length === 3 &&
+    arr[0].length === 5 &&
+    arr[1].length === 3 &&
+    arr[2].length === 4
+  ) {
+    return true;
+  } else {
+    return false;
   }
-  return maxSum;
-};
 
-console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])); //6
-console.log(maxSequence([])); //0
+  //TODO: Return whether phoneNumber is in the proper form
+}
+
+console.log(validPhoneNumber("(123) 456-7890")); // true
+console.log(validPhoneNumber("(1111)555 2345")); // false
+console.log(validPhoneNumber("(098) 123 4567")); //false
