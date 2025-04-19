@@ -1,18 +1,57 @@
-function highestRank(arr) {
-  let newObj = {};
-  for (let i = 0; i < arr.length; i++) {
-    if (newObj[arr[i]]) {
-      newObj[arr[i]] += 1;
-    } else {
-      newObj[arr[i]] = 1;
-    }
-  }
-  const sortedEntries = Object.entries(newObj).sort((a, b) => a[1] - b[1]);
-  return Number(sortedEntries[sortedEntries.length - 1][0]);
-}
-console.log(highestRank([12, 10, 8, 12, 7, 6, 4, 10, 12])); //12
+const readline = require("readline");
 
-console.log(highestRank([12, 10, 8, 8, 3, 3, 3, 3, 2, 4, 10, 12, 10])); //3
+// обёртка для ввода
+const askQuestion = (query) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  return new Promise((resolve) =>
+    rl.question(query, (ans) => {
+      rl.close();
+      resolve(ans);
+    })
+  );
+};
+function validateRounds(rounds) {
+  if (!Number.isInteger(Number(rounds))) {
+    throw new Error("Число раундов должно быть целым числом");
+  }
+  if (Number(rounds) <= 0) {
+    throw new Error("Число раундов не может быть 0 и менее");
+  }
+}
+function validateNames(name) {
+  if (name.length > 5) {
+    throw new Error("Имя должно быть менее 5 символов");
+  }
+  if (name === "") {
+    throw new Error("Имя не должно быть пустой строкой");
+  }
+}
+function showCarNames(arr, counter) {
+  for (let i = 0; i < counter; i++) {
+    console.log(arr);
+  }
+}
+async function racing() {
+  try {
+    const names = await askQuestion("Введите имена машин (через запятую): ");
+    console.log(names);
+    let namesArray = names.split(",");
+    namesArray.forEach(validateNames);
+    console.log(namesArray);
+    const rounds = await askQuestion("Введите число раундов:");
+    console.log(rounds);
+    validateRounds(rounds);
+    showCarNames(namesArray, rounds);
+  } catch (error) {
+    console.error("Что-то пошло не так", error);
+  }
+  // console.log("Artem");
+}
+
+racing();
 
 // function insertionSort(arr) {
 //   for (let i = 1; i < arr.length; i++) {
