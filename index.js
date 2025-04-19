@@ -45,46 +45,35 @@ function validateNames(name) {
   }
 }
 
-function getCarPoints() {
-  const randomNumber = Math.floor(Math.random() * 10);
-  if (randomNumber < 4) {
-    return "";
-  } else {
-    return "-";
-  }
-}
-function race(cars, counter) {
-  const carsMap = {};
-
-  for (let i = 0; i < cars.length; i++) {
-    carsMap[cars[i]] = "";
-  }
+function race(names, counter) {
+  const cars = names.map((name) => {
+    return new Car(name);
+  });
 
   for (let i = 0; i < counter; i++) {
-    for (key in carsMap) {
-      carsMap[key] += getCarPoints();
-      console.log(`${key.padEnd(5)}: ${carsMap[key]}`);
-    }
+    cars.forEach((car) => car.move());
+    cars.forEach((car) =>
+      console.log(`${car.name.padEnd(5)}: ${car.distance}`)
+    );
     console.log();
   }
-  console.log();
   let maxLenght = null;
   let maxValue = "";
 
-  for (key in carsMap) {
-    if (carsMap[key].length > maxLenght) {
-      maxLenght = carsMap[key].length;
-      maxValue = carsMap[key];
+  cars.forEach((car) => {
+    if (car.distance.length > maxLenght) {
+      maxLenght = car.distance.length;
+      maxValue = car.distance;
     }
-  }
+  });
 
-  let winner = Object.entries(carsMap).filter(([key, value]) => {
-    return value === maxValue;
+  let winner = cars.filter((car) => {
+    return car.distance === maxValue;
   });
 
   console.log(
     `Winners: ${winner.map((item) => {
-      return item[0];
+      return item.name;
     })}`
   );
 }
@@ -104,12 +93,4 @@ async function racing() {
   }
 }
 
-// racing();
-
-const car = new Car("foo");
-
-console.log(car.distance);
-car.move();
-car.move();
-car.move();
-console.log(car.distance);
+racing();
