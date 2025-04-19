@@ -13,19 +13,6 @@ const askQuestion = (query) => {
     })
   );
 };
-class Car {
-  constructor(name) {
-    this.name = name;
-    this.distance = "";
-  }
-  move() {
-    const randomNumber = Math.floor(Math.random() * 10);
-
-    if (randomNumber >= 4) {
-      this.distance += "-";
-    }
-  }
-}
 
 function validateRounds(rounds) {
   if (!Number.isInteger(Number(rounds))) {
@@ -104,12 +91,4 @@ async function racing() {
   }
 }
 
-// racing();
-
-const car = new Car("foo");
-
-console.log(car.distance);
-car.move();
-car.move();
-car.move();
-console.log(car.distance);
+racing();
