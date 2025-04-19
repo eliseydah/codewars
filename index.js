@@ -13,6 +13,7 @@ const askQuestion = (query) => {
     })
   );
 };
+
 function validateRounds(rounds) {
   if (!Number.isInteger(Number(rounds))) {
     throw new Error("Число раундов должно быть целым числом");
@@ -21,6 +22,7 @@ function validateRounds(rounds) {
     throw new Error("Число раундов не может быть 0 и менее");
   }
 }
+
 function validateNames(name) {
   if (name.length > 5) {
     throw new Error("Имя должно быть менее 5 символов");
@@ -29,42 +31,64 @@ function validateNames(name) {
     throw new Error("Имя не должно быть пустой строкой");
   }
 }
-function showCarNames(arr, counter) {
-  for (let i = 0; i < counter; i++) {
-    console.log(arr);
+
+function getCarPoints() {
+  const randomNumber = Math.floor(Math.random() * 10);
+  if (randomNumber < 4) {
+    return "";
+  } else {
+    return "-";
   }
 }
+function race(cars, counter) {
+  const carsMap = {};
+
+  for (let i = 0; i < cars.length; i++) {
+    carsMap[cars[i]] = "";
+  }
+
+  for (let i = 0; i < counter; i++) {
+    for (key in carsMap) {
+      carsMap[key] += getCarPoints();
+      console.log(`${key.padEnd(5)}: ${carsMap[key]}`);
+    }
+    console.log();
+  }
+  console.log();
+  let maxLenght = null;
+  let maxValue = "";
+
+  for (key in carsMap) {
+    if (carsMap[key].length > maxLenght) {
+      maxLenght = carsMap[key].length;
+      maxValue = carsMap[key];
+    }
+  }
+
+  let winner = Object.entries(carsMap).filter(([key, value]) => {
+    return value === maxValue;
+  });
+
+  console.log(
+    `Winners: ${winner.map((item) => {
+      return item[0];
+    })}`
+  );
+}
+
 async function racing() {
   try {
     const names = await askQuestion("Введите имена машин (через запятую): ");
-    console.log(names);
     let namesArray = names.split(",");
     namesArray.forEach(validateNames);
-    console.log(namesArray);
+
     const rounds = await askQuestion("Введите число раундов:");
-    console.log(rounds);
     validateRounds(rounds);
-    showCarNames(namesArray, rounds);
+    console.log("Race results \n");
+    race(namesArray, rounds);
   } catch (error) {
     console.error("Что-то пошло не так", error);
   }
-  // console.log("Artem");
 }
 
 racing();
-
-// function insertionSort(arr) {
-//   for (let i = 1; i < arr.length; i++) {
-//     let current = arr[i];
-//     let j = i - 1;
-//     // сдвигаем элементы вправо
-//     while (j >= 0 && arr[j] > current) {
-//       arr[j + 1] = arr[j];
-//       j--;
-//     }
-
-//     arr[j + 1] = current;
-//   }
-//   return arr;
-// }
-// console.log(insertionSort([2, 5, 7, 1, 8, 3, 4, 6]));
