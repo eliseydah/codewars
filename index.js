@@ -13,81 +13,49 @@ const askQuestion = (query) => {
     })
   );
 };
-class Car {
-  constructor(name) {
-    this.name = name;
-    this.distance = "";
-  }
-  move() {
-    const randomNumber = Math.floor(Math.random() * 10);
+// class Lotto {
 
-    if (randomNumber >= 4) {
-      this.distance += "-";
-    }
-  }
+// }
+
+// function validateNames(name) {
+//   if (name.length > 5) {
+//     throw new Error("Имя должно быть менее 5 символов");
+//   }
+//   if (name === "") {
+//     throw new Error("Имя не должно быть пустой строкой");
+//   }
+// }
+
+// function race() {
+
+// }
+function getNumberOfTickets(sum) {
+  return Math.floor(sum / 1000);
 }
 
-function validateRounds(rounds) {
-  if (!Number.isInteger(Number(rounds))) {
-    throw new Error("Число раундов должно быть целым числом");
+function createLotteryTicket() {
+  let num = [];
+  for (let i = 0; i < 6; i++) {
+    num.push(Math.floor(Math.random() * 45) + 1);
   }
-  if (Number(rounds) <= 0) {
-    throw new Error("Число раундов не может быть 0 и менее");
-  }
-}
-
-function validateNames(name) {
-  if (name.length > 5) {
-    throw new Error("Имя должно быть менее 5 символов");
-  }
-  if (name === "") {
-    throw new Error("Имя не должно быть пустой строкой");
-  }
-}
-
-function race(names, counter) {
-  const cars = names.map((name) => {
-    return new Car(name);
+  let sorted = num.sort((a, b) => {
+    return a - b;
   });
-
-  for (let i = 0; i < counter; i++) {
-    cars.forEach((car) => car.move());
-    cars.forEach((car) =>
-      console.log(`${car.name.padEnd(5)}: ${car.distance}`)
-    );
-    console.log();
-  }
-  let maxLenght = null;
-  let maxValue = "";
-
-  cars.forEach((car) => {
-    if (car.distance.length > maxLenght) {
-      maxLenght = car.distance.length;
-      maxValue = car.distance;
-    }
-  });
-
-  let winner = cars.filter((car) => {
-    return car.distance === maxValue;
-  });
-
-  console.log(
-    `Winners: ${winner.map((item) => {
-      return item.name;
-    })}`
-  );
+  return sorted;
 }
-
 async function racing() {
   try {
-    const names = await askQuestion("Введите имена машин (через запятую): ");
-    let namesArray = names.split(",");
-    namesArray.forEach(validateNames);
+    const moneyForTickets = await askQuestion("Введите сумму покупки: ");
+    console.log(moneyForTickets);
+    let numberOfTickets = getNumberOfTickets(moneyForTickets);
+    let allUserTickets = [];
+    console.log(`You have purchased ${numberOfTickets} tickets.`);
 
-    const rounds = await askQuestion("Введите число раундов:");
-    validateRounds(rounds);
-    console.log("Race results \n");
-    race(namesArray, rounds);
+    for (let i = 0; i < numberOfTickets; i++) {
+      const ticket = createLotteryTicket();
+      console.log(ticket);
+      allUserTickets.push(ticket);
+    }
   } catch (error) {
     console.error("Что-то пошло не так", error);
   }
