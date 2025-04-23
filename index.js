@@ -32,21 +32,38 @@ const askQuestion = (query) => {
 function getNumberOfTickets(sum) {
   return Math.floor(sum / 1000);
 }
-
+function validateNumber(number) {
+  if (Number(number) > 45 || Number(number) < 1) {
+    throw new Error("Lotto numbers must be between 1 and 45.");
+  }
+}
+function validateNumbersArrayLength(arr) {
+  if (arr.length !== 6) {
+    throw new Error("You need to write 6 comma-separated numbers");
+  }
+}
 function createLotteryTicket() {
   let num = [];
-  for (let i = 0; i < 6; i++) {
-    num.push(Math.floor(Math.random() * 45) + 1);
-  }
+  do {
+    let generateNumber = Math.floor(Math.random() * 45) + 1;
+    if (!num.includes(generateNumber)) num.push(generateNumber);
+  } while (num.length < 6);
   let sorted = num.sort((a, b) => {
     return a - b;
   });
   return sorted;
 }
-async function racing() {
+function findMatch(arr1, arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    let commonLength = arr1[i].filter((value) => arr2.includes(value));
+    console.log(commonLength.length);
+  }
+}
+async function lotto() {
   try {
-    const moneyForTickets = await askQuestion("Введите сумму покупки: ");
-    console.log(moneyForTickets);
+    const moneyForTickets = await askQuestion(
+      "Please enter the purchase amount.\n"
+    );
     let numberOfTickets = getNumberOfTickets(moneyForTickets);
     let allUserTickets = [];
     console.log(`You have purchased ${numberOfTickets} tickets.`);
@@ -56,9 +73,21 @@ async function racing() {
       console.log(ticket);
       allUserTickets.push(ticket);
     }
+    const winNumbers = await askQuestion(
+      "Please enter last week's winning numbers.\n"
+    );
+    let winNumbersArray = winNumbers.split(",");
+    validateNumbersArrayLength(winNumbersArray);
+    winNumbersArray.forEach(validateNumber);
+    const bonusNumber = await askQuestion("Please enter the bonus number.\n");
+    validateNumber(bonusNumber);
+
+    console.log("Winning Number");
+    console.log("---");
+    findMatch(allUserTickets, winNumbers);
   } catch (error) {
     console.error("Что-то пошло не так", error);
   }
 }
 
-racing();
+lotto();
